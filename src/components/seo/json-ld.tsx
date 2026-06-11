@@ -1,4 +1,6 @@
-import { siteConfig } from "@/lib/site-config";
+"use client";
+
+import { useSettings } from "@/lib/settings-context";
 
 type JsonLdProps = {
   data: Record<string, unknown> | Record<string, unknown>[];
@@ -21,6 +23,7 @@ export function JsonLd({ data }: JsonLdProps) {
 }
 
 export function LocalBusinessJsonLd() {
+  const siteConfig = useSettings();
   return (
     <JsonLd
       data={{
@@ -125,6 +128,7 @@ export function ArticleJsonLd({
   publishedAt: string;
   url: string;
 }) {
+  const siteConfig = useSettings();
   return (
     <JsonLd
       data={{

@@ -1,4 +1,6 @@
-import { siteConfig } from "@/lib/site-config";
+"use client";
+
+import { useSettings } from "@/lib/settings-context";
 import { formatPhoneLink } from "@/lib/utils";
 import { Phone } from "lucide-react";
 
@@ -20,6 +22,7 @@ export function CallButton({
   showIcon = true,
   label,
 }: CallButtonProps) {
+  const siteConfig = useSettings();
   const phoneLabel = label ?? siteConfig.phoneDisplay;
 
   return (

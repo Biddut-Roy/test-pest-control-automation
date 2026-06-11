@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum Role {
+  SUPER_ADMIN
+  EDITOR
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  role      Role     @default(EDITOR)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Setting {
+  id                    String   @id @default(cuid())
+  companyName           String   @default("GreenShield Pest Solutions") @map("company_name")
+  phone                 String   @default("(555) 247-7378") @map("phone")
+  email                 String   @default("hello@greenshieldpest.com") @map("email")
+  address               String   @default("1234 Commerce Drive, Plano, TX 75024") @map("address")
+  logoUrl               String?  @map("logo_url")
+  googleMapUrl          String?  @map("google_map_url")
+  facebookUrl           String?  @map("facebook_url")
+  instagramUrl          String?  @map("instagram_url")
+  linkedinUrl           String?  @map("linkedin_url")
+  youtubeUrl            String?  @map("youtube_url")
+  businessHours         String?  @map("business_hours")
+  defaultMetaTitle      String   @default("GreenShield Pest Solutions | Trusted Local Pest Control") @map("default_meta_title")
+  defaultMetaDescription String  @default("Professional pest control for North Texas homes and businesses. Free inspections, same-day service, and eco-conscious treatments.") @map("default_meta_description")
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}
+
+model Page {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description")
+  content         String?
+  status          Status   @default(DRAFT)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([slug])
+  @@index([status])
+  @@index([createdAt])
+  @@map("pages")
+}
+
+model BlogPost {
+  id              String   @id @default(cuid())
+  title           String
+  slug            String   @unique
+  metaTitle       String?  @map("meta_title")
+  metaDescription String?  @map("meta_description")
+  content         String?
+  status          Status   @default(DRAFT)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([slug])
+  @@index([status])
+  @@index([createdAt])
+  @@map("blog_posts")
+}

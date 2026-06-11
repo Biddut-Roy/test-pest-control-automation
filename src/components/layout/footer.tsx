@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Facebook,
@@ -8,10 +10,10 @@ import {
   Star,
 } from "lucide-react";
 
-import { siteConfig } from "@/lib/site-config";
+import { useSettings } from "@/lib/settings-context";
 import { formatPhoneLink } from "@/lib/utils";
 
-const footerLinks = {
+const staticFooterLinks = {
   company: [
     { label: "About Us", href: "/about" },
     { label: "Contact", href: "/contact" },
@@ -24,12 +26,10 @@ const footerLinks = {
     { label: "Termite Treatment", href: "/contact" },
     { label: "Rodent Control", href: "/contact" },
   ],
-  areas: siteConfig.nav
-    .filter((n) => n.href.startsWith("/pest-control"))
-    .slice(0, 4),
 };
 
 export function Footer() {
+  const siteConfig = useSettings();
   return (
     <footer className="border-t bg-brand-dark text-white">
       <div className="container-narrow section-padding !py-12">
@@ -56,7 +56,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold">Company</h3>
             <ul className="mt-4 space-y-2">
-              {footerLinks.company.map((link) => (
+              {staticFooterLinks.company.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -72,7 +72,7 @@ export function Footer() {
           <div>
             <h3 className="font-semibold">Services</h3>
             <ul className="mt-4 space-y-2">
-              {footerLinks.services.map((link) => (
+              {staticFooterLinks.services.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
